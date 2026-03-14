@@ -1,0 +1,403 @@
+<style>
+    :root {
+        --primary: #6366f1;
+        --secondary: #8b5cf6;
+        --bg: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --text: #f8fafc;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        margin: 0;
+    }
+
+    .nav-header {
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .nav-tabs {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .nav-tab {
+        text-decoration: none;
+        color: #94a3b8;
+        padding: 0.6rem 1.2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-tab.active {
+        color: white;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .container {
+        width: 100%;
+        max-width: 900px;
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ... existing styles ... */
+    h1,
+    h2,
+    h3 {
+        margin-top: 0;
+        font-weight: 700;
+    }
+
+    .search-box {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 1.5rem;
+    }
+
+    input[type="text"],
+    input[type="file"] {
+        background: rgba(15, 23, 42, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0.8rem 1rem;
+        border-radius: 12px;
+        color: white;
+        width: 100%;
+        transition: all 0.3s;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+    }
+
+    button {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 12px;
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, opacity 0.2s;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+    }
+
+    .weather-info {
+        text-align: center;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .weather-icon {
+        width: 100px;
+        height: 100px;
+        filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+    }
+
+    .temp {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin: 0.5rem 0;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .stat-item {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 0.8rem;
+        border-radius: 12px;
+    }
+
+    .history-list,
+    .report-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 1rem;
+    }
+
+    .list-item {
+        background: rgba(255, 255, 255, 0.03);
+        margin-bottom: 0.8rem;
+        padding: 1rem;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.2s;
+    }
+
+    .list-item:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .history-item {
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+        border: 1px solid transparent;
+    }
+
+    .history-item:hover {
+        transform: scale(1.02);
+        border-color: rgba(99, 102, 241, 0.3);
+        background: rgba(99, 102, 241, 0.1) !important;
+    }
+
+
+    .msg {
+        padding: 1rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .msg-error {
+        background: rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
+    }
+
+    .msg-success {
+        background: rgba(34, 197, 94, 0.2);
+        color: #86efac;
+    }
+
+    .upload-section {
+        margin-top: 0;
+    }
+
+    .download-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: white;
+    }
+
+    .download-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .delete-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+        text-decoration: none;
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        border-radius: 8px;
+        color: #fca5a5;
+        transition: all 0.2s;
+    }
+
+    .delete-btn:hover {
+        background: rgba(239, 68, 68, 0.2);
+        border-color: rgba(239, 68, 68, 0.5);
+    }
+</style>
+</head>
+
+<body>
+    <div class="nav-header">
+        <h1>SkyCast</h1>
+        <nav class="nav-tabs">
+            <a href="?view=weather" class="nav-tab {% if view == 'weather' %}active{% endif %}">Weather</a>
+            <a href="?view=reports" class="nav-tab {% if view == 'reports' %}active{% endif %}">Project Reports</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        {% if view == 'weather' %}
+        <!-- Sidebar: History & Search -->
+        <div class="sidebar">
+            <div class="card">
+                <h3>Find City</h3>
+                <form method="POST" class="search-box">
+                    {% csrf_token %}
+                    <input type="text" name="city" placeholder="Enter city name..." required>
+                    <button type="submit" name="search_city">Search</button>
+                </form>
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="msg msg-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+                {% endif %}
+
+                <h3 style="margin-top: 2rem;">Recent History</h3>
+                <ul class="history-list">
+                    {% for item in recent_searches %}
+                    <a href="?city={{ item.city_name }}&view=weather" style="text-decoration: none; color: inherit;">
+                        <li class="list-item history-item">
+                            <div>
+                                <strong>{{ item.city_name }}</strong><br>
+                                <small>{{ item.description }}</small>
+                            </div>
+                            <div>{{ item.temperature }}°C</div>
+                        </li>
+                    </a>
+                    {% empty %}
+                    <li class="list-item"><small>No history yet</small></li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+
+        <!-- Main Content: Weather Detail -->
+        <div class="main-content">
+            <div class="card">
+                {% if weather %}
+                <div class="weather-info">
+                    <h2>{{ weather.city }}</h2>
+                    <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@4x.png" alt="icon"
+                        class="weather-icon">
+                    <div class="temp">{{ weather.temp }}°C</div>
+                    <div style="text-transform: capitalize; color: #94a3b8;">{{ weather.description }}</div>
+
+                    <div class="stats">
+                        <div class="stat-item">
+                            <small>Humidity</small><br>
+                            <strong>{{ weather.humidity }}%</strong>
+                        </div>
+                        <div class="stat-item">
+                            <small>Pressure</small><br>
+                            <strong>{{ weather.pressure }}hPa</strong>
+                        </div>
+                        <div class="stat-item">
+                            <small>Feels Like</small><br>
+                            <strong>{{ weather.temp }}°C</strong>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div style="text-align: center; color: #64748b; padding: 4rem 2.5rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">☁️</div>
+                    <p>Enter a city name on the left to get started!</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if view == 'reports' %}
+        <div class="reports-container" style="grid-column: 1 / -1;">
+            <div class="card">
+                <div class="upload-section">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+                        <div>
+                            <h2>Project Reports</h2>
+                            <p style="color: #94a3b8; margin: 0;">Upload and manage your project documentation.</p>
+                        </div>
+                    </div>
+
+                    <form method="POST" enctype="multipart/form-data"
+                        style="background: rgba(255,255,255,0.03); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                        {% csrf_token %}
+                        <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 15px; align-items: end;">
+                            <div>
+                                <label
+                                    style="display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">Report
+                                    Title</label>
+                                {{ form.title }}
+                            </div>
+                            <div>
+                                <label
+                                    style="display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 5px;">Select
+                                    File</label>
+                                {{ form.report_file }}
+                            </div>
+                            <button type="submit" name="upload_report">Upload Now</button>
+                        </div>
+                    </form>
+
+                    <h3 style="margin-bottom: 1rem;">Uploaded Documents</h3>
+                    <ul class="report-list">
+                        {% for report in reports %}
+                        <li class="list-item">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="background: rgba(99, 102, 241, 0.2); padding: 10px; border-radius: 10px;">📄
+                                </div>
+                                <div>
+                                    <strong>{{ report.title }}</strong><br>
+                                    <small style="color: #64748b;">Uploaded on {{ report.uploaded_at|date:"M d, Y"
+                                        }}</small>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <a href="{{ report.report_file.url }}" class="download-btn" target="_blank">Download
+                                    File</a>
+                                <a href="{% url 'delete_report' report.id %}" class="delete-btn"
+                                    onclick="return confirm('Are you sure you want to delete this report?')">Delete</a>
+                            </div>
+                        </li>
+
+                        {% empty %}
+                        <li class="list-item" style="justify-content: center; padding: 3rem;">
+                            <div style="text-align: center; color: #64748b;">
+                                <p>No reports found. Start by uploading one above!</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
